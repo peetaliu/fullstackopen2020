@@ -7,21 +7,25 @@ const Button = (props) => (
   </button>
 )
 
+const Statistics = (props) => {
+  const {title, g, n, b} = props
+  return (
+  <div>
+    <h1>{title}</h1>
+    <p>good {g}</p>
+    <p>neutral {n}</p>
+    <p>bad {b}</p>
+    <p>all {g + n + b} </p>
+    <p>avg {(g-b)/(g+n+b)}</p>
+    <p>positive {(g/(g+n+b))*100}</p>
+  </div>
+  )
+}
 const App = () => {
   // save clicks of each button to own state
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
   const [bad, setBad] = useState(0)
-
-  function calculateAvg(pos, neu, neg){
-    let avg = (pos-neg)/(pos+neu+neg)
-
-    return avg
-  }
-
-  function getPosPer(g, n, b){
-    return (g/(g+n+b))*100
-  }
 
   return (
     <div>
@@ -30,14 +34,8 @@ const App = () => {
       <Button handleClick={()=> setNeutral(neutral + 1)} text="neutral" />
       <Button handleClick={()=> setBad(bad + 1)} text="bad" />
 
-      <h1>statistics</h1>
-
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p> 
-      <p>all {good + neutral + bad}</p>
-      <p>average {calculateAvg(good, neutral, bad)}</p>
-      <p>positive {getPosPer(good, neutral, bad)} %</p>
+      <Statistics title="Statistics" g={good} n={neutral} b={bad}/>
+      
     </div>
   )
 }
