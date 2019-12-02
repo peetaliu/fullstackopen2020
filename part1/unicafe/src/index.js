@@ -9,17 +9,26 @@ const Button = (props) => (
 
 const Statistics = (props) => {
   const {title, g, n, b} = props
-  return (
-  <div>
-    <h1>{title}</h1>
-    <p>good {g}</p>
-    <p>neutral {n}</p>
-    <p>bad {b}</p>
-    <p>all {g + n + b} </p>
-    <p>avg {(g-b)/(g+n+b)}</p>
-    <p>positive {(g/(g+n+b))*100}</p>
-  </div>
-  )
+  if(!g && !n && !b){
+    return(
+      <div>
+        <h1>{title}</h1>
+        <p>No feedback given</p>
+      </div>
+    )
+  } else {
+    return (
+    <div>
+      <h1>{title}</h1>
+      <p>good {g}</p>
+      <p>neutral {n}</p>
+      <p>bad {b}</p>
+      <p>all {g + n + b} </p>
+      <p>avg {(g-b)/(g+n+b)}</p>
+      <p>positive {(g/(g+n+b))*100}</p>
+    </div>
+    )
+  }
 }
 const App = () => {
   // save clicks of each button to own state
