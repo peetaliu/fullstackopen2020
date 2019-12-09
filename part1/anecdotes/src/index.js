@@ -10,24 +10,28 @@ const Button = (props) => (
 const App = (props) => {
   const [selected, setSelected] = useState(0)
   // eslint-disable-next-line
-  const [votes, setVotes] = useState([])
-  
-  const getVote = (item) => {
-    let counter = 0
-    for (const vote of votes){
-      if(vote === item){
-        counter ++
-      }
+  const [votes, setVotes] = useState(new Array(props.anecdotes.length).fill(0))
+
+  const getRandom = (currVal) => {
+    let num = Math.floor(Math.random() * props.anecdotes.length)
+    while(num === currVal){
+      num = Math.floor(Math.random() * props.anecdotes.length)
     }
-    return counter
+    return num
+  }
+
+  const addVote = (vote) => {
+    let copy = [...votes]
+    copy[vote] += 1
+    return copy
   }
 
   return (
     <div>
       <p>{props.anecdotes[selected]}</p>
-      <p>has {getVote(selected)} votes</p>
-      <Button handleClick={()=>setSelected(Math.floor(Math.random()*props.anecdotes.length))} text="Next anecdote"/><br/>
-      <Button handleClick={()=>setVotes(votes.concat(selected))} text="Vote"/>
+      <p>has {votes[selected]} votes</p>
+      <Button handleClick={()=>setSelected(getRandom(selected))} text="Next anecdote"/><br/>
+      <Button handleClick={()=>setVotes(addVote(selected))} text="Vote"/>
     </div>
     
   )
