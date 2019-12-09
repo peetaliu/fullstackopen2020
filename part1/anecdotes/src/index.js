@@ -7,15 +7,23 @@ const Button = (props) => (
   </button>
 )
 
+const DisplayAnecdotes = (props) => (
+  <div>
+    <h1>{props.title}</h1>
+    <p>{props.text}</p>
+    <p>has {props.votes} votes</p>
+  </div>
+)
+
 const App = (props) => {
+  let anec = props.anecdotes;
   const [selected, setSelected] = useState(0)
-  // eslint-disable-next-line
-  const [votes, setVotes] = useState(new Array(props.anecdotes.length).fill(0))
+  const [votes, setVotes] = useState(new Array(anec.length).fill(0))
 
   const getRandom = (currVal) => {
-    let num = Math.floor(Math.random() * props.anecdotes.length)
+    let num = Math.floor(Math.random() * anec.length)
     while(num === currVal){
-      num = Math.floor(Math.random() * props.anecdotes.length)
+      num = Math.floor(Math.random() * anec.length)
     }
     return num
   }
@@ -26,12 +34,14 @@ const App = (props) => {
     return copy
   }
 
+  const getMax = () => votes.indexOf(Math.max(...votes))
+
   return (
     <div>
-      <p>{props.anecdotes[selected]}</p>
-      <p>has {votes[selected]} votes</p>
-      <Button handleClick={()=>setSelected(getRandom(selected))} text="Next anecdote"/><br/>
+      <DisplayAnecdotes title="Anecdote of the day" text={anec[selected]} votes={votes[selected]}/>
+      <Button handleClick={()=>setSelected(getRandom(selected))} text="Next anecdote"/>
       <Button handleClick={()=>setVotes(addVote(selected))} text="Vote"/>
+      <DisplayAnecdotes title="Anecdote with the most votes" text={anec[getMax()]} votes={votes[getMax()]} />
     </div>
     
   )
