@@ -9,28 +9,29 @@ const Header = (props) => {
     )
 }
 
-// eslint-disable-next-line
+
 const Content = (props) => {
     let partArr = props.parts;
-
     return (
         <div>
-            <Part coName={partArr[0].name} numEx={partArr[0].exercises}/>
-            <Part coName={partArr[1].name} numEx={partArr[1].exercises}/>  
-            <Part coName={partArr[2].name} numEx={partArr[2].exercises}/>  
+            {partArr.map(a => 
+              <Part 
+                key = {a.id}
+                coName = {a.name}
+                numEx = {a.exercises}
+              />
+              )}
         </div>
     )
 }
-// eslint-disable-next-line
+
 const Total = (props) => {
-    let ex = props.parts
-    const sum = (p1, p2, p3) => {
-        return p1 + p2 + p3
-    }
-    let totalCount = sum(ex[0].exercises, ex[1].exercises, ex[2].exercises);
+  let exCount = props.parts.map(exArr => exArr.exercises)
+  //console.log('exCount', exCount);
+  const total = exCount.reduce((a, c) => a + c, 0)
     return (
         <div>
-            <p>Number of exercises {totalCount}</p>
+            <strong>Number of exercises {total}</strong>
         </div>
     )
 }
@@ -44,14 +45,13 @@ const Part = (props) => {
 }
 
 const Course = ({course}) => {
-  
-  // const courseNames = () => {
-  //   course.parts.map(a => <Part coName = {a.name}/>)
-  // }
+  let exCount = course.parts.map(x => x.exercises)
+  //console.log('excount', exCount);
   return (
   <div>
     <Header title = {course.name}/>
-    {course.parts.map(a => <Part coName = {a.name}/>)}
+    <Content parts = {course.parts}/>
+    <Total parts = {course.parts}/>
   </div>
 )
 
@@ -74,6 +74,11 @@ const App = () => {
         name: 'State of a component',
         exercises: 14,
         id: 3
+      },
+      {
+        name: 'Redux',
+        exercises: 11,
+        id: 4
       }
     ]
   }
