@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+
 // eslint-disable-next-line
 const Header = (props) => {
     return (
@@ -44,9 +45,16 @@ const Part = (props) => {
 }
 
 const Course = ({courses}) => {
+  const coursesArr = () => courses.map(cName => 
+    <div key={cName.id}>
+      <Header title={cName.name}/>
+      <Content parts={cName.parts}/>
+      <Total parts={cName.parts}/>
+    </div>
+  )
   return (
   <div>
-    {courses.map(cArr => ([<Header title={cArr.name} key={cArr.id}/>, <Content parts={cArr.parts} key={cArr.parts.id}/>, <Total parts={cArr.parts} key={cArr.parts.id}/>]))}
+    {coursesArr()}
   </div>
 )
 
@@ -124,6 +132,7 @@ const App = () => {
 
   return (
     <div>
+      <h1>Web development curriculum</h1>
       <Course courses={courses} />
     </div>
   )
