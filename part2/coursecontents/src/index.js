@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-// eslint-disable-next-line
 const Header = (props) => {
     return (
         <div>
@@ -27,7 +26,6 @@ const Content = (props) => {
 
 const Total = (props) => {
   let exCount = props.parts.map(exArr => exArr.exercises)
-  //console.log('exCount', exCount);
   const total = exCount.reduce((a, c) => a + c, 0)
     return (
         <div>
@@ -45,20 +43,19 @@ const Part = (props) => {
 }
 
 const Course = ({courses}) => {
-  const coursesArr = () => courses.map(cName => 
-    <div key={cName.id}>
-      <Header title={cName.name}/>
-      <Content parts={cName.parts}/>
-      <Total parts={cName.parts}/>
+  const coursesArr = () => courses.map(cArr => 
+    <div key={cArr.id}>
+      <Header title={cArr.name}/>
+      <Content parts={cArr.parts}/>
+      <Total parts={cArr.parts}/>
     </div>
   )
   return (
   <div>
     {coursesArr()}
   </div>
-)
-
-  }
+  )
+}
 const App = () => {
   // const course = {
   //   name: 'Half Stack application development',
