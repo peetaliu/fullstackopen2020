@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Person from './components/Person'
 
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456' },
@@ -11,25 +12,17 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [search, setSearch] = useState('')
+  const [showAll, setShowAll] = useState(true)
 
-  const showNames = () => {
-    if(!search.trim()){
-      return (persons.map(p =><Person key={p.name} person={p}/>))
-    } else {
-      const searchArr = []
-      persons.forEach((p)=>{
-        if(p.name.toString().toLowerCase().trim().includes(search.toLowerCase()) || p.number.toString().toLowerCase().trim().includes(search.toLowerCase())){
-          searchArr.push(p)
-        }
-      })
-      return (
-        searchArr.map(p => <Person key={p.name} person={p}/>)
-      )
-    }
-  }
+  const personsToShow = showAll
+    ? persons
+    : persons.filter(p => p.name.toLowerCase().trim().includes(search.toLowerCase()) || p.number.toLowerCase().trim().includes(search.toLowerCase()))
+
+  const showNames = () => personsToShow.map(p => <Person key={p.name} person={p}/>)
+  
+    
   const addName = (e) => {
       e.preventDefault()
-
       const allNames = () => persons.map(p => p.name.toUpperCase())
       const allNum = () => persons.map(p => p.number)
       if(!newName.trim() || !newNumber.trim()){
@@ -61,8 +54,14 @@ const App = () => {
   }
 
   const handleSearch = (e) => {
+    if(e.target.value.trim()){
+      setShowAll(false)
+    } else {
+      setShowAll(true)
+    }
     setSearch(e.target.value)
   }
+
 
   return (
     <div>
