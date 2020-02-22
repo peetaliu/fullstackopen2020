@@ -12,14 +12,14 @@ const App = () => {
   const [showAll, setShowAll] = useState(true)
 
   useEffect(() => {
-    console.log('effect: ', persons)
+    console.log('effect')
     axios
       .get('http://localhost:3001/persons').then(res => {
-        console.log('promise fulfilled')
         setPersons(res.data)
         console.log(`Res Data: ${res.data}`)
       })
   }, [])
+  console.log(`Rendered ${persons.length} entries`);
 
   const handleNameChange = (e) => {
     //console.log(e.target.value)
