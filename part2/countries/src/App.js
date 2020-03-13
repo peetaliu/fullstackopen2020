@@ -24,8 +24,6 @@ const App = () => {
     setSearch(e.target.value)
   }
 
-
-
   return (
     <div>
       <Search search={search} handler={handleSearch}/>
