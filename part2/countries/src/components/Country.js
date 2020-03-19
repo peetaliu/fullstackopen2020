@@ -1,26 +1,23 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Weather from './Weather'
 import axios from 'axios'
 
 const Country = (props) => {
+    const apiURL = `api.openweathermap.org/data/2.5/weather?q=${props.capital}&appid=${process.env.REACT_APP_WEATHER_KEY}`
     const [details, setDetails] = useState(props.details)
     const [weather, setWeather] = useState({})
-    const params = {
-        access_key: process.env.REACT_APP_WEATHER_KEY,
-        query: props.capital
-    }
+
+    useEffect(()=>{
+        axios
+        .get(apiURL)
+        .then(res => {
+         setWeather(res.data)
+        })
+      },[apiURL])
 
     const handleShow = () => {
         setDetails(!details)
     }
-
-    axios
-        .get('http://api.weatherstack.com/current', {params})
-        .then(res => {
-        setWeather(res.data)
-        })
-
-    console.log(weather);
 
     if(!details){
         return(
@@ -37,7 +34,6 @@ const Country = (props) => {
                 {props.languages.map(l => <li key={l.name}>{l.name}</li>)}
             </ul>
             <img src={props.flag} alt={props.name}/>
-            
             <Weather weather={weather}/>
             </div>
             

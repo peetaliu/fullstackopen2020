@@ -2,7 +2,7 @@ import React from 'react'
 import Country from './Country'
 
 const Countries = (props) => {
-    const countries = props.countries.filter(c => c.name.toLowerCase().includes(props.search.toLowerCase()))
+    const countries = props.countries.filter(c => c.name.toLowerCase().includes(props.search.toLowerCase().trim()))
 
     if(countries.length){
         console.log(countries);

@@ -1,9 +1,10 @@
 import React from 'react'
 
 const Weather = (props) => {
-    console.log(props.weather);
+    const {details} = props.weather 
+    console.log({details});
     return(
-        <h2>Weather in {props.weather}</h2>
+        <h2>Weather in hello</h2>
     )
 }
 
