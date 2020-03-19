@@ -3,7 +3,7 @@ import Weather from './Weather'
 import axios from 'axios'
 
 const Country = (props) => {
-    const apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${props.capital}&appid=${process.env.REACT_APP_WEATHER_KEY}`
+    const apiURL = `https://api.openweathermap.org/data/2.5/weather?q=${props.capital}&units=metric&appid=${process.env.REACT_APP_WEATHER_KEY}`
     const [details, setDetails] = useState(props.details)
     const [weather, setWeather] = useState({})
 
