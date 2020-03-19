@@ -1,12 +1,26 @@
 import React, {useState} from 'react'
+import Weather from './Weather'
+import axios from 'axios'
 
 const Country = (props) => {
-
     const [details, setDetails] = useState(props.details)
+    const [weather, setWeather] = useState({})
+    const params = {
+        access_key: process.env.REACT_APP_WEATHER_KEY,
+        query: props.capital
+    }
 
     const handleShow = () => {
         setDetails(!details)
     }
+
+    axios
+        .get('http://api.weatherstack.com/current', {params})
+        .then(res => {
+        setWeather(res.data)
+        })
+
+    console.log(weather);
 
     if(!details){
         return(
@@ -24,6 +38,7 @@ const Country = (props) => {
             </ul>
             <img src={props.flag} alt={props.name}/>
             
+            <Weather weather={weather}/>
             </div>
             
         )
