@@ -1,28 +1,35 @@
 import React from 'react'
+import axios from 'axios'
+import PersonsService from '../services/PersonsService'
+import Persons from './Persons'
 
 const PersonForm = (props) =>{
 
     const addName = (e) => {
-    e.preventDefault()
-    const allNames = () => props.persons.map(p => p.name.toUpperCase())
-    const allNum = () => props.persons.map(p => p.number)
-    if (!props.newName.trim() || !props.newNumber.trim()) {
-        window.alert('Text boxes cannot be empty')
-    } else {
-        if (allNames().includes(props.newName.trim().toUpperCase())) {
-            window.alert(`${props.newName} already exists in the phonebook. Please use a different name.`)
-        } else if (allNum().includes(props.newNumber.trim())) {
-            window.alert(`${props.newNumber} already exists in the phonebook. Please add a different number`)
+        e.preventDefault()
+        const allNames = () => props.persons.map(p => p.name.toUpperCase())
+        const allNum = () => props.persons.map(p => p.number)
+        if (!props.newName.trim() || !props.newNumber.trim()) {
+            window.alert('Text boxes cannot be empty')
         } else {
-            const personObj = {
-                name: props.newName,
-                number: props.newNumber
+            if (allNames().includes(props.newName.trim().toUpperCase())) {
+                window.alert(`${props.newName} already exists in the phonebook. Please use a different name.`)
+            } else if (allNum().includes(props.newNumber.trim())) {
+                window.alert(`${props.newNumber} already exists in the phonebook. Please add a different number`)
+            } else {
+                const personObj = {
+                    name: props.newName,
+                    number: props.newNumber
+                }
+                PersonsService
+                    .create(personObj)
+                    .then(res => {
+                        props.setPersons(props.persons.concat(res.data))
+                        props.setNewName('')
+                        props.setNewNumber('')
+                })
             }
-            props.setPersons(props.persons.concat(personObj))
-            props.setNewName('')
-            props.setNewNumber('')
         }
-    }
     }
 
 return(
