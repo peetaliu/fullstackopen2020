@@ -1,26 +1,31 @@
 import React from 'react'
-import PersonsService from '../services/PersonsService'
+import serv from '../services/PersonsService'
 
 const PersonForm = (props) =>{
 
+    const allPersons = [...props.persons]
+
     const addName = (e) => {
         e.preventDefault()
-        const allNames = () => props.persons.map(p => p.name.toUpperCase())
-        const allNum = () => props.persons.map(p => p.number)
+        // const allNames = () => props.persons.map(p => p.name.toUpperCase())
+        // const allNum = () => props.persons.map(p => p.number)
         if (!props.newName.trim() || !props.newNumber.trim()) {
             window.alert('Text boxes cannot be empty')
         } else {
-            if (allNames().includes(props.newName.trim().toUpperCase())) {
-                window.alert(`${props.newName} already exists in the phonebook. Please use a different name.`)
-            } else if (allNum().includes(props.newNumber.trim())) {
+            const personObj = {
+                name: props.newName,
+                number: props.newNumber
+            }
+            if (allPersons.some(p => p.name === props.newName)) {
+                console.log(allPersons.findIndex(p => p.name === props.newName));
+                if(window.confirm(`${props.newName} already exists in the phonebook. Replace old number with new?`)){
+                    const id = allPersons[allPersons.findIndex(p => p.name === props.newName)].id
+                    serv.update(id, personObj).then(props.updateList())
+                }
+            } else if (allPersons.some(p => p.number === props.newNumber)) {
                 window.alert(`${props.newNumber} already exists in the phonebook. Please add a different number`)
             } else {
-                const personObj = {
-                    name: props.newName,
-                    number: props.newNumber
-                }
-                
-                PersonsService
+                serv
                     .create(personObj)
                     .then(res => {
                         props.setPersons(props.persons.concat(res.data))
