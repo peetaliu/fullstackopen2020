@@ -4,9 +4,11 @@ import serv from '../services/PersonsService'
 const Person = (props) => {
 
   const handleDelete = () => {
-    serv.del(props.person.id)
-      .then(serv.getAll())
-      .then(props.updateList())
+    if(window.confirm(`Delete ${props.person.name}?`)){
+      serv.del(props.person.id)
+        .then(serv.getAll())
+        .then(props.updateList())
+    }
 }
 
   return (
