@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import PersonsService from './services/PersonsService'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
@@ -13,23 +12,26 @@ const App = () => {
   const [showAll, setShowAll] = useState(true)
 
   useEffect(() => {
-    console.log('effect')
     PersonsService
       .getAll()
       .then(res => {
         setPersons(res.data)
-        console.log(`Res Data: ${res.data}`)
       })
   }, [])
-  console.log(`Rendered ${persons.length} entries`);
+
+  const updateList = () => {
+    PersonsService
+      .getAll()
+      .then(res => {
+        setPersons(res.data)
+      })
+  }
 
   const handleNameChange = (e) => {
-    //console.log(e.target.value)
     setNewName(e.target.value)
   }
   
   const handleNumChange = (e) => {
-    //console.log(e.target.value)
     setNewNumber(e.target.value)
   }
 
@@ -63,7 +65,7 @@ const App = () => {
 
       <h3>Numbers</h3>
 
-      <Persons persons={persons} search={search} showAll={showAll}/>
+      <Persons persons={persons} search={search} showAll={showAll} updateList={updateList}/>
     </div>
   )
 }

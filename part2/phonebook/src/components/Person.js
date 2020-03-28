@@ -1,8 +1,16 @@
 import React from 'react'
+import serv from '../services/PersonsService'
 
-const Person = ({ person }) => {
+const Person = (props) => {
+
+  const handleDelete = () => {
+    serv.del(props.person.id)
+      .then(serv.getAll())
+      .then(props.updateList())
+}
+
   return (
-      <li>{person.name} {person.number}</li>
+      <li>{props.person.name} {props.person.number} <button onClick={handleDelete}>Delete</button></li>
   )
 }
 

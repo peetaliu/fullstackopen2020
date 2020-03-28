@@ -1,7 +1,5 @@
 import React from 'react'
-import axios from 'axios'
 import PersonsService from '../services/PersonsService'
-import Persons from './Persons'
 
 const PersonForm = (props) =>{
 
@@ -21,6 +19,7 @@ const PersonForm = (props) =>{
                     name: props.newName,
                     number: props.newNumber
                 }
+                
                 PersonsService
                     .create(personObj)
                     .then(res => {
