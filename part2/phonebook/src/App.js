@@ -73,6 +73,7 @@ const App = () => {
         search={search}
         showAll={showAll}
         updateList={updateList}
+        message={setMsg}
       />
     </div>
   );

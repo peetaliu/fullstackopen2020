@@ -16,7 +16,12 @@ const Persons = props => {
       );
   const showNames = () =>
     personsToShow.map(p => (
-      <Person key={p.name} person={p} updateList={props.updateList} />
+      <Person
+        key={p.name}
+        person={p}
+        updateList={props.updateList}
+        message={props.message}
+      />
     ));
 
   return <div>{showNames()}</div>;
