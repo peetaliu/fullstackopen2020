@@ -55,6 +55,7 @@ app.post("/api/persons", (req, res) => {
   const body = req.body;
   const names = persons.map((p) => p.name);
 
+  //step6
   if (!body.name || !body.number) {
     return res.status(400).json({
       error: "Name or Number cannot be empty",
