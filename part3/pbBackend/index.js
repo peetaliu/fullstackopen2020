@@ -20,6 +20,8 @@ let persons = [
   },
 ];
 
+app.use(express.json());
+
 app.get("/api/persons/", (req, res) => {
   res.json(persons);
 });
@@ -48,6 +50,35 @@ app.delete("/api/persons/:id", (req, res) => {
   persons = persons.filter((p) => p.id !== id);
   res.status(204).end();
 });
+
+app.post("/api/persons", (req, res) => {
+  const body = req.body;
+  const names = persons.map((p) => p.name);
+
+  if (!body.name || !body.number) {
+    return res.status(400).json({
+      error: "Name or Number cannot be empty",
+    });
+  } else if (names.includes(body.name)) {
+    return res.status(400).json({
+      error: "Name must be unique",
+    });
+  }
+
+  const newPerson = {
+    name: body.name,
+    number: body.number,
+    id: generateId(),
+  };
+
+  persons = persons.concat(newPerson);
+
+  res.json(persons);
+});
+
+const generateId = () => {
+  return Math.floor(Math.random() * (100000 - 1)) + 1;
+};
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
