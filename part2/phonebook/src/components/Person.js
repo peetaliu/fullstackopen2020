@@ -1,11 +1,11 @@
 import React from "react";
 import serv from "../services/PersonsService";
 
-const Person = props => {
+const Person = (props) => {
   const handleDelete = () => {
     const msg = {
       type: "error",
-      msg: `${props.person.name} was already been removed from database`
+      msg: `${props.person.name} was already been removed from database`,
     };
 
     if (window.confirm(`Delete ${props.person.name}?`)) {
@@ -13,7 +13,7 @@ const Person = props => {
         .del(props.person.id)
         .then(serv.getAll())
         .then(props.updateList())
-        .catch(e => {
+        .catch((e) => {
           props.message(msg);
           setTimeout(() => {
             props.message(null);

@@ -15,26 +15,26 @@ const App = () => {
   const [msg, setMsg] = useState(null);
 
   useEffect(() => {
-    PersonsService.getAll().then(res => {
+    PersonsService.getAll().then((res) => {
       setPersons(res.data);
     });
   }, []);
 
   const updateList = () => {
-    PersonsService.getAll().then(res => {
+    PersonsService.getAll().then((res) => {
       setPersons(res.data);
     });
   };
 
-  const handleNameChange = e => {
+  const handleNameChange = (e) => {
     setNewName(e.target.value);
   };
 
-  const handleNumChange = e => {
+  const handleNumChange = (e) => {
     setNewNumber(e.target.value);
   };
 
-  const handleSearch = e => {
+  const handleSearch = (e) => {
     if (e.target.value.trim()) {
       setShowAll(false);
     } else {
