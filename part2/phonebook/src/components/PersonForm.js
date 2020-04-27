@@ -22,7 +22,9 @@ const PersonForm = (props) => {
           const id =
             allPersons[allPersons.findIndex((p) => p.name === props.newName)]
               .id;
-          serv.update(id, personObj).then(props.updateList());
+          serv.update(id, personObj).then(() => {
+            props.updateList();
+          });
         }
       } else if (allPersons.some((p) => p.number === props.newNumber)) {
         window.alert(

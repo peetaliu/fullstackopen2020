@@ -6,14 +6,25 @@ const PORT = process.env.PORT || 3001;
 const morgan = require("morgan");
 const cors = require("cors");
 
+const errHandler = (err, req, res, next) => {
+  console.error(err.message);
+
+  if (err.name === "CastError") {
+    return res.status(400).send({ error: "incorrect id format" });
+  }
+
+  next(err);
+};
+
+const unknownEndpoint = (req, res) => {
+  res.status(400).send({ error: "Unknown Endpoint" });
+};
+
 app.use(cors());
-
+app.use(express.static("build"));
 app.use(express.json());
-
 morgan.token("body", (req, res) => JSON.stringify(req.body));
 app.use(morgan(":method :url :status :response-time ms :body"));
-
-app.use(express.static("build"));
 
 app.get("/api/persons/", (req, res) => {
   Person.find({}).then((person) => {
@@ -37,12 +48,12 @@ app.get("/api/persons/:id", (req, res) => {
   });
 });
 
-app.delete("/api/persons/:id", (req, res) => {
-  // Person.deleteOne({ _id: ObjectId(req.params.id) }, (err, obj) => {
-  //   if (err) console.log("Error: ", err);
-  //   console.log();
-  // });
-  console.log("delete");
+app.delete("/api/persons/:id", (req, res, next) => {
+  Person.findByIdAndRemove(req.params.id)
+    .then((result) => {
+      res.status(204).end();
+    })
+    .catch((err) => next(err));
 });
 
 app.post("/api/persons", (req, res) => {
@@ -62,6 +73,23 @@ app.post("/api/persons", (req, res) => {
     res.json(savedPerson.toJSON());
   });
 });
+
+app.put("/api/persons/:id", (req, res, next) => {
+  const body = req.body;
+  const person = {
+    name: body.name,
+    number: body.number,
+  };
+
+  Person.findByIdAndUpdate(req.params.id, person, { new: true })
+    .then((updatedPerson) => {
+      res.json(updatedPerson.toJSON());
+    })
+    .catch((err) => next(err));
+});
+
+app.use(unknownEndpoint);
+app.use(errHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
