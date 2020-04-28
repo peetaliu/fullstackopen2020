@@ -11,6 +11,8 @@ const errHandler = (err, req, res, next) => {
 
   if (err.name === "CastError") {
     return res.status(400).send({ error: "incorrect id format" });
+  } else if (err.name === "ValidationError") {
+    return res.status(400).send({ error: err.message });
   }
 
   next(err);
@@ -56,7 +58,7 @@ app.delete("/api/persons/:id", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-app.post("/api/persons", (req, res) => {
+app.post("/api/persons", (req, res, next) => {
   const body = req.body;
   if (!body.name) {
     return res.status(400).json({
@@ -69,9 +71,13 @@ app.post("/api/persons", (req, res) => {
     number: body.number,
   });
 
-  person.save().then((savedPerson) => {
-    res.json(savedPerson.toJSON());
-  });
+  person
+    .save()
+    .then((savedPerson) => savedPerson.toJSON())
+    .then((formattedPerson) => {
+      res.json(formattedPerson);
+    })
+    .catch((error) => next(error));
 });
 
 app.put("/api/persons/:id", (req, res, next) => {

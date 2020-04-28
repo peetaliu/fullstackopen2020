@@ -20,6 +20,8 @@ const errHandler = (err, req, res, next) => {
   console.log(err.message);
   if (err.name === "CastError") {
     return res.status(400).send({ error: "incorrect id format" });
+  } else if (err.name === "ValidationError") {
+    return res.status(400).json({ error: err.message });
   }
 
   next(err);
@@ -65,7 +67,7 @@ app.delete("/api/notes/:id", (req, res, next) => {
     .catch((err) => next(err));
 });
 
-app.post("/api/notes", (req, res) => {
+app.post("/api/notes", (req, res, next) => {
   const body = req.body;
 
   if (!body.content) {
@@ -80,9 +82,13 @@ app.post("/api/notes", (req, res) => {
     date: new Date(),
   });
 
-  note.save().then((savedNote) => {
-    res.json(savedNote.toJSON());
-  });
+  note
+    .save()
+    .then((savedNote) => savedNote.JSON())
+    .then((formattedNote) => {
+      res.json(formattedNote);
+    })
+    .catch((error) => next(error));
 });
 
 app.put("/api/notes/:id", (req, res, next) => {
