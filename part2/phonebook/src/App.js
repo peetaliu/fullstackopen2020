@@ -1,47 +1,47 @@
-import React, { useState, useEffect } from "react";
-import PersonsService from "./services/PersonsService";
-import Filter from "./components/Filter";
-import PersonForm from "./components/PersonForm";
-import Persons from "./components/Persons";
-import Notifications from "./components/Notifications";
-import "./index.css";
+import React, { useState, useEffect } from 'react'
+import PersonsService from './services/PersonsService'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
+import Notifications from './components/Notifications'
+import './index.css'
 
 const App = () => {
-  const [persons, setPersons] = useState([]);
-  const [newName, setNewName] = useState("");
-  const [newNumber, setNewNumber] = useState("");
-  const [search, setSearch] = useState("");
-  const [showAll, setShowAll] = useState(true);
-  const [msg, setMsg] = useState(null);
+  const [persons, setPersons] = useState([])
+  const [newName, setNewName] = useState('')
+  const [newNumber, setNewNumber] = useState('')
+  const [search, setSearch] = useState('')
+  const [showAll, setShowAll] = useState(true)
+  const [msg, setMsg] = useState(null)
 
   useEffect(() => {
-    PersonsService.getAll().then((res) => {
-      setPersons(res.data);
-    });
-  }, []);
+    PersonsService.getAll().then(res => {
+      setPersons(res.data)
+    })
+  }, [])
 
   const updateList = () => {
-    PersonsService.getAll().then((res) => {
-      setPersons(res.data);
-    });
-  };
+    PersonsService.getAll().then(res => {
+      setPersons(res.data)
+    })
+  }
 
-  const handleNameChange = (e) => {
-    setNewName(e.target.value);
-  };
+  const handleNameChange = e => {
+    setNewName(e.target.value)
+  }
 
-  const handleNumChange = (e) => {
-    setNewNumber(e.target.value);
-  };
+  const handleNumChange = e => {
+    setNewNumber(e.target.value)
+  }
 
-  const handleSearch = (e) => {
+  const handleSearch = e => {
     if (e.target.value.trim()) {
-      setShowAll(false);
+      setShowAll(false)
     } else {
-      setShowAll(true);
+      setShowAll(true)
     }
-    setSearch(e.target.value);
-  };
+    setSearch(e.target.value)
+  }
 
   return (
     <div>
@@ -76,7 +76,7 @@ const App = () => {
         message={setMsg}
       />
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App

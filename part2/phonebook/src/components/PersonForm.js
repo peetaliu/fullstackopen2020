@@ -1,70 +1,69 @@
-import React from "react";
-import serv from "../services/PersonsService";
+import React from 'react'
+import serv from '../services/PersonsService'
 
-const PersonForm = (props) => {
-  const allPersons = [...props.persons];
-  const timeoutMsg = (msgObj) => {
-    props.message(msgObj);
+const PersonForm = props => {
+  const allPersons = [...props.persons]
+  const timeoutMsg = msgObj => {
+    props.message(msgObj)
     setTimeout(() => {
-      props.message(null);
-    }, 5000);
-  };
-  const addName = (e) => {
-    e.preventDefault();
+      props.message(null)
+    }, 5000)
+  }
+  const addName = e => {
+    e.preventDefault()
     if (!props.newName.trim() || !props.newNumber.trim()) {
-      window.alert("Text boxes cannot be empty");
+      window.alert('Text boxes cannot be empty')
     } else {
       const personObj = {
         name: props.newName,
         number: props.newNumber,
-      };
-      if (allPersons.some((p) => p.name === props.newName)) {
+      }
+      if (allPersons.some(p => p.name === props.newName)) {
         if (
           window.confirm(
             `${props.newName} already exists in the phonebook. Replace old number with new?`
           )
         ) {
           const id =
-            allPersons[allPersons.findIndex((p) => p.name === props.newName)]
-              .id;
+            allPersons[allPersons.findIndex(p => p.name === props.newName)].id
           serv
             .update(id, personObj)
             .then(() => props.updateList())
-            .catch((error) => {
+            .catch(error => {
               const msgObject = {
-                type: "error",
+                type: 'error',
                 msg: error.response.data,
-              };
-              timeoutMsg(msgObject);
-            });
+              }
+              timeoutMsg(msgObject)
+            })
         }
-      } else if (allPersons.some((p) => p.number === props.newNumber)) {
+      } else if (allPersons.some(p => p.number === props.newNumber)) {
         window.alert(
           `${props.newNumber} already exists in the phonebook. Please add a different number`
-        );
+        )
       } else {
         serv
           .create(personObj)
-          .then((res) => {
+          .then(res => {
             const msgObject = {
-              type: "success",
+              type: 'success',
               msg: `Added ${props.newName}`,
-            };
-            props.setPersons(props.persons.concat(res.data));
-            props.setNewName("");
-            props.setNewNumber("");
-            timeoutMsg(msgObject);
+            }
+            props.setPersons(props.persons.concat(res.data))
+            props.setNewName('')
+            props.setNewNumber('')
+            timeoutMsg(msgObject)
           })
-          .catch((err) => {
+          .catch(err => {
             const msgObject = {
-              type: "error",
+              type: 'error',
               msg: err.response.data.error,
-            };
-            timeoutMsg(msgObject);
-          });
+            }
+            timeoutMsg(msgObject)
+          })
       }
     }
-  };
+  }
 
   return (
     <form onSubmit={addName}>
@@ -72,13 +71,13 @@ const PersonForm = (props) => {
         name: <input value={props.newName} onChange={props.handleNameChange} />
       </div>
       <div>
-        number:{" "}
+        number:{' '}
         <input value={props.newNumber} onChange={props.handleNumChange} />
       </div>
       <div>
         <button type="submit">add</button>
       </div>
     </form>
-  );
-};
-export default PersonForm;
+  )
+}
+export default PersonForm
