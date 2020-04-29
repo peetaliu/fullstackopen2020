@@ -1,7 +1,6 @@
 import React from "react";
 import Person from "./Person";
 const Persons = (props) => {
-  console.log("props persons", props.persons);
   const personsToShow = props.showAll
     ? props.persons
     : props.persons.filter(

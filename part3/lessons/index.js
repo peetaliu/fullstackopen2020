@@ -21,7 +21,7 @@ const errHandler = (err, req, res, next) => {
   if (err.name === "CastError") {
     return res.status(400).send({ error: "incorrect id format" });
   } else if (err.name === "ValidationError") {
-    return res.status(400).json({ error: err.message });
+    return res.status(400).json({ error: err });
   }
 
   next(err);

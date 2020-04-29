@@ -4,6 +4,7 @@ const url = process.env.MONGODB_URI;
 console.log("connecting to:", url);
 
 mongoose.set("useFindAndModify", false);
+//mongoose.set("runValidators", true);
 
 mongoose
   .connect(url, {
@@ -21,13 +22,13 @@ mongoose
 const personSchema = new mongoose.Schema({
   name: {
     type: String,
-    minlength: 2,
+    minlength: 3,
     required: true,
     unique: true,
   },
   number: {
     type: String,
-    minlength: 6,
+    minlength: 8,
     required: true,
   },
 });

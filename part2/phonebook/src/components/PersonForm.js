@@ -3,6 +3,12 @@ import serv from "../services/PersonsService";
 
 const PersonForm = (props) => {
   const allPersons = [...props.persons];
+  const timeoutMsg = (msgObj) => {
+    props.message(msgObj);
+    setTimeout(() => {
+      props.message(null);
+    }, 5000);
+  };
   const addName = (e) => {
     e.preventDefault();
     if (!props.newName.trim() || !props.newNumber.trim()) {
@@ -13,7 +19,6 @@ const PersonForm = (props) => {
         number: props.newNumber,
       };
       if (allPersons.some((p) => p.name === props.newName)) {
-        console.log(allPersons.findIndex((p) => p.name === props.newName));
         if (
           window.confirm(
             `${props.newName} already exists in the phonebook. Replace old number with new?`
@@ -22,28 +27,41 @@ const PersonForm = (props) => {
           const id =
             allPersons[allPersons.findIndex((p) => p.name === props.newName)]
               .id;
-          serv.update(id, personObj).then(() => {
-            props.updateList();
-          });
+          serv
+            .update(id, personObj)
+            .then(() => props.updateList())
+            .catch((error) => {
+              const msgObject = {
+                type: "error",
+                msg: error.response.data,
+              };
+              timeoutMsg(msgObject);
+            });
         }
       } else if (allPersons.some((p) => p.number === props.newNumber)) {
         window.alert(
           `${props.newNumber} already exists in the phonebook. Please add a different number`
         );
       } else {
-        const msgObject = {
-          type: "success",
-          msg: `Added ${props.newName}`,
-        };
-        serv.create(personObj).then((res) => {
-          props.setPersons(props.persons.concat(res.data));
-          props.setNewName("");
-          props.setNewNumber("");
-          props.message(msgObject);
-          setTimeout(() => {
-            props.message(null);
-          }, 5000);
-        });
+        serv
+          .create(personObj)
+          .then((res) => {
+            const msgObject = {
+              type: "success",
+              msg: `Added ${props.newName}`,
+            };
+            props.setPersons(props.persons.concat(res.data));
+            props.setNewName("");
+            props.setNewNumber("");
+            timeoutMsg(msgObject);
+          })
+          .catch((err) => {
+            const msgObject = {
+              type: "error",
+              msg: err.response.data.error,
+            };
+            timeoutMsg(msgObject);
+          });
       }
     }
   };
