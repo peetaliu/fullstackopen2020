@@ -2,8 +2,8 @@ POST http://localhost:3003/api/blogs
 Content-Type: application/json
 
 {
-  "title": "Hll0WRLD",
+  "title": "Hll0WRLD2123",
   "author": "Peeta",
-  "url": "peetaliu2.dev",
-  "likes": 69
+  "url": "peetaliu3.dev",
+  "likes": 69420
 }
