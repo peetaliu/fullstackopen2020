@@ -1,6 +1,6 @@
-const mostLikes = require('../utils/list_helper').mostLikes
+const mostBlogs = require('../utils/list_helper').mostBlogs
 
-describe('most liked author', () => {
+describe('Number of blogs', () => {
   const blogs = [
     {
       _id: '5a422a851b54a676234d17f7',
@@ -54,11 +54,12 @@ describe('most liked author', () => {
       __v: 0,
     },
   ]
-  test('of list with multiple blog posts', () => {
-    const result = mostLikes(blogs)
+  test('when list has multiple blogs', () => {
+    const result = mostBlogs(blogs)
+
     expect(result).toEqual({
-      author: 'Edsger W. Dijkstra',
-      likes: 17,
+      author: 'Robert C. Martin',
+      blogs: 3,
     })
   })
 })
