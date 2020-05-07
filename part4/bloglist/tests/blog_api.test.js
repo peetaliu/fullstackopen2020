@@ -54,6 +54,31 @@ test('blog post can be added to db', async () => {
   expect(savedTitle).toContain(newBlogPost.title)
 })
 
+test('blog with no like property defaults to 0', async () => {
+  const newBlogPost = {
+    title: 'post blog title test',
+    author: 'post blog author test',
+    url: 'post.test.url.1',
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlogPost)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  expect(blogsAtEnd[blogsAtEnd.length - 1].likes).toBe(0)
+})
+
+test('missing title and url returns 400', async () => {
+  const newBlogPost = {
+    author: 'post blog author test',
+  }
+
+  await api.post('/api/blogs').send(newBlogPost).expect(400)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
