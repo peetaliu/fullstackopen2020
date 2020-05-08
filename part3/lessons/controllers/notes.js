@@ -16,7 +16,7 @@ notesRouter.get('/:id', async (request, response, next) => {
   if (note) {
     response.json(note.toJSON())
   } else {
-    response.status(400).end()
+    response.status(404).end()
   }
   //} catch (exception) {
   next(exception)

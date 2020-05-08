@@ -1,16 +1,12 @@
 const mongoose = require('mongoose')
 
-mongoose.set('useFindAndModify', false)
-
 const noteSchema = new mongoose.Schema({
   content: {
     type: String,
     minlength: 5,
     required: true,
   },
-  date: {
-    type: Date,
-  },
+  date: Date,
   important: Boolean,
 })
 
