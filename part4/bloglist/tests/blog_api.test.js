@@ -79,6 +79,36 @@ test('missing title and url returns 400', async () => {
   await api.post('/api/blogs').send(newBlogPost).expect(400)
 })
 
+test('delete successful', async () => {
+  const dbBlogs = await helper.blogsInDb()
+  const delId = dbBlogs[0].id
+
+  await api.delete(`/api/blogs/${delId}`).expect(204)
+
+  const result = await helper.blogsInDb()
+  expect(result).toHaveLength(helper.initialBlogs.length - 1)
+})
+
+test('blog updated successfully', async () => {
+  const blogs = await helper.blogsInDb()
+  const id = blogs[0].id
+  const updateBlog = {
+    title: 'updated',
+    author: 'updated',
+    url: 'updated',
+    likes: 200,
+  }
+
+  await api
+    .put(`/api/blogs/${id}`)
+    .send(updateBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const updatedBlogList = await helper.blogsInDb()
+  expect(updatedBlogList[0].title).toEqual(updateBlog.title)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
