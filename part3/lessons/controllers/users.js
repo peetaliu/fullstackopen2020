@@ -9,16 +9,17 @@ usersRouter.get('/', async (req, res) => {
 
 usersRouter.post('/', async (req, res) => {
   const body = req.body
-  const saltRounds = 10
-  const pwHash = await bcrypt.hash(body.password, saltRounds)
 
-  const newUser = new User({
+  const saltRounds = 10
+  const passwordHash = await bcrypt.hash(body.password, saltRounds)
+
+  const user = new User({
     username: body.username,
     name: body.name,
-    pwHash,
+    passwordHash,
   })
 
-  const savedUser = await newUser.save()
+  const savedUser = await user.save()
 
   res.json(savedUser)
 })

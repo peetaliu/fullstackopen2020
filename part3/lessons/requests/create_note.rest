@@ -1,8 +1,9 @@
 POST http://localhost:3001/api/notes
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im5ld1VzZXIiLCJpZCI6IjVlYjc1NmM5YjNjOTc0MTk3ODMzNTk2NCIsImlhdCI6MTU4OTA3NDIyOX0.E32Gdvtu7pF3sM3wb3YBEApvwrNiP4XmfI3Wmm0XaXg
 
 {
-  "content": "VS Code REST client is pretty coo",
-  "important": false,
+  "content": "new note",
+  "important": true,
   "userId": "5eb5bec53126680bb0e73b25"
 }
