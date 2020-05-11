@@ -3,8 +3,8 @@ Content-Type: application/json
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InVzZXIzIiwiaWQiOiI1ZWI4NTFmZTgyMzU0ODJhZDA4YjU0ZGMiLCJpYXQiOjE1ODkxMzkzNTJ9.EyfYub2EAhKmFp4C5sMNITFf5PrZiqDIcEvwRXMPwUk
 
 {
-  "title": "blog10",
+  "title": "blog12",
   "author": "user",
   "url": "peetaliu.dev",
-  "likes": 40
+  "likes": 12
 }
