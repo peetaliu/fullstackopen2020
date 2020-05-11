@@ -1,5 +1,4 @@
 const logger = require('./logger')
-const http = require('http')
 
 const requestLogger = (request, response, next) => {
   logger.info('Method:', request.method)
@@ -32,7 +31,6 @@ const tokenExtractor = (request, response, next) => {
   if (authorization && authorization.toLowerCase().startsWith('bearer')) {
     request.token = authorization.substring(7)
   }
-
   next()
 }
 
