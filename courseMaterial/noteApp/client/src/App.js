@@ -32,6 +32,7 @@ const App = () => {
   }, [])
 
   const createNote = noteObj => {
+    noteFormRef.current.toggleVisibility()
     noteService.create(noteObj).then(returnedNote => {
       setNotes(notes.concat(returnedNote))
     })
@@ -55,6 +56,8 @@ const App = () => {
         }, 5000)
       })
   }
+
+  const noteFormRef = React.createRef()
 
   const handleLogin = async event => {
     event.preventDefault()
@@ -117,7 +120,7 @@ const App = () => {
             {user.name} logged in <button onClick={handleLogout}>Logout</button>
           </p>
 
-          <Togglable buttonLabel="new note">
+          <Togglable buttonLabel="new note" ref={noteFormRef}>
             <NoteForm createNote={createNote} />
           </Togglable>
         </div>
