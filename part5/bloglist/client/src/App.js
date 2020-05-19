@@ -13,9 +13,6 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
   const blogFormRef = React.createRef()
 
   useEffect(() => {
@@ -61,21 +58,12 @@ const App = () => {
     }, 5000)
   }
 
-  const addBlog = async event => {
-    event.preventDefault()
-    const blogObj = {
-      title: title,
-      author: author,
-      url: url,
-    }
+  const createBlog = async blogObj => {
     try {
       blogFormRef.current.toggleVisibility()
       await blogService.create(blogObj)
       const blogs = await blogService.getAll()
       setBlogs(blogs)
-      setTitle('')
-      setAuthor('')
-      setUrl('')
       setErrorMessage(`New blog: ${blogObj.title} has been added`)
       setTimeout(() => {
         setErrorMessage(null)
@@ -109,15 +97,7 @@ const App = () => {
           </p>
 
           <Togglable buttonLabel="New Blog" ref={blogFormRef}>
-            <BlogForm
-              title={title}
-              author={author}
-              url={url}
-              setTitle={setTitle}
-              setAuthor={setAuthor}
-              setUrl={setUrl}
-              addBlog={addBlog}
-            />
+            <BlogForm createBlog={createBlog} />
           </Togglable>
         </div>
       )}
