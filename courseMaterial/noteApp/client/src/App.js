@@ -87,6 +87,22 @@ const App = () => {
     }
   }
 
+  const handleLogout = async event => {
+    event.preventDefault()
+    try {
+      window.localStorage.removeItem('loggedNoteappUser')
+      noteService.setToken(null)
+      setUser(null)
+      setUsername('')
+      setPassword('')
+    } catch (exception) {
+      setErrorMessage('Logged out')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
+    }
+  }
+
   const handleNoteChange = event => {
     setNewNote(event.target.value)
   }
@@ -110,6 +126,7 @@ const App = () => {
             handlePasswordChange={({ target }) => setPassword(target.value)}
             handleSubmit={handleLogin}
           />
+          <button onClick={() => setLoginVisible(false)}>cancel</button>
         </div>
       </div>
     )
@@ -131,7 +148,10 @@ const App = () => {
         loginForm()
       ) : (
         <div>
-          <p>{user.name} logged in</p>
+          <p>
+            {user.name} logged in <button onClick={handleLogout}>Logout</button>
+          </p>
+
           {noteForm()}
         </div>
       )}
