@@ -5,6 +5,7 @@ import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -15,6 +16,7 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const blogFormRef = React.createRef()
 
   useEffect(() => {
     blogService.getAll().then(blogs => setBlogs(blogs))
@@ -67,8 +69,10 @@ const App = () => {
       url: url,
     }
     try {
+      blogFormRef.current.toggleVisibility()
       await blogService.create(blogObj)
-      blogService.getAll().then(blogs => setBlogs(blogs))
+      const blogs = await blogService.getAll()
+      setBlogs(blogs)
       setTitle('')
       setAuthor('')
       setUrl('')
@@ -88,26 +92,33 @@ const App = () => {
     <div>
       <Notification message={errorMessage} />
       {user === null ? (
-        <LoginForm
-          username={username}
-          password={password}
-          setUsername={setUsername}
-          setPassword={setPassword}
-          handleLogin={handleLogin}
-        />
+        <Togglable buttonLabel="Login">
+          <LoginForm
+            username={username}
+            password={password}
+            setUsername={setUsername}
+            setPassword={setPassword}
+            handleLogin={handleLogin}
+          />
+        </Togglable>
       ) : (
         <div>
-          <p>Logged in as {user.name}</p>
-          <button onClick={handleLogout}>Logout</button>
-          <BlogForm
-            title={title}
-            author={author}
-            url={url}
-            setTitle={setTitle}
-            setAuthor={setAuthor}
-            setUrl={setUrl}
-            addBlog={addBlog}
-          />
+          <p>
+            Logged in as {user.name}
+            <button onClick={handleLogout}>Logout</button>
+          </p>
+
+          <Togglable buttonLabel="New Blog" ref={blogFormRef}>
+            <BlogForm
+              title={title}
+              author={author}
+              url={url}
+              setTitle={setTitle}
+              setAuthor={setAuthor}
+              setUrl={setUrl}
+              addBlog={addBlog}
+            />
+          </Togglable>
         </div>
       )}
 
