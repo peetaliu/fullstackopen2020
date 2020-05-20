@@ -117,7 +117,7 @@ const App = () => {
     <div>
       <Notification message={errorMessage} />
       {user === null ? (
-        <Togglable buttonLabel="Login">
+        <Togglable buttonLabel='Login'>
           <LoginForm
             username={username}
             password={password}
@@ -133,7 +133,7 @@ const App = () => {
             <button onClick={handleLogout}>Logout</button>
           </p>
 
-          <Togglable buttonLabel="New Blog" ref={blogFormRef}>
+          <Togglable buttonLabel='New Blog' ref={blogFormRef}>
             <BlogForm createBlog={createBlog} />
           </Togglable>
         </div>
