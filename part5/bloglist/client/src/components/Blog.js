@@ -15,11 +15,19 @@ const Blog = props => {
     marginBottom: 5,
   }
 
+  const checkOwnership = () => {
+    return props.username === blog.user.username ? true : false
+  }
+  const showIfOwned = { display: checkOwnership() ? '' : 'none' }
+
   const toggleVisible = () => {
     setVisible(!visible)
   }
   const addLike = () => {
     props.updateBlog(blog)
+  }
+  const deleteBlog = () => {
+    props.deleteBlog(blog)
   }
 
   return (
@@ -35,6 +43,9 @@ const Blog = props => {
           likes: {blog.likes} <button onClick={addLike}>like</button>
         </p>
         <p>{blog.user.name}</p>
+        <button onClick={deleteBlog} style={showIfOwned}>
+          delete
+        </button>
       </div>
     </div>
   )

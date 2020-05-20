@@ -62,12 +62,8 @@ const App = () => {
     try {
       blogFormRef.current.toggleVisibility()
       await blogService.create(blogObj)
-      const blogs = await blogService.getAll()
-      setBlogs(blogs)
-      setErrorMessage(`New blog: ${blogObj.title} has been added`)
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+      const allBlogs = await blogService.getAll()
+      setBlogs(allBlogs)
     } catch (exception) {
       setErrorMessage('Error')
       setTimeout(() => {
@@ -79,18 +75,41 @@ const App = () => {
   const updateBlog = async blogObj => {
     try {
       await blogService.updateBlog(blogObj)
-      const blogs = await blogService.getAll()
-      setBlogs(blogs)
+      const allBlogs = await blogService.getAll()
+      setBlogs(allBlogs)
       setErrorMessage(
         `added like to blog: ${blogObj.title}. Total likes now at: ${
           blogObj.likes + 1
         }`
       )
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 5000)
     } catch (exception) {
       setErrorMessage('Error updating likes')
       setTimeout(() => {
         setErrorMessage(null)
       }, 5000)
+    }
+  }
+
+  const deleteBlog = async blog => {
+    console.log('blogId for del: ', blog.id)
+    if (window.confirm(`Remove blog ${blog.name} by ${blog.author}`)) {
+      try {
+        await blogService.deleteBlog(blog.id)
+        const allBlogs = await blogService.getAll()
+        setBlogs(allBlogs)
+        setErrorMessage(`Deleted blog: ${blog.title}`)
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      } catch (exception) {
+        setErrorMessage('error deleting blog')
+        setTimeout(() => {
+          setErrorMessage(null)
+        }, 5000)
+      }
     }
   }
 
@@ -123,9 +142,21 @@ const App = () => {
       <h2>blogs</h2>
       {blogs
         .sort((a, b) => b.likes - a.likes)
-        .map(blog => (
-          <Blog key={blog.id} blog={blog} updateBlog={updateBlog} />
-        ))}
+        .map(blog => {
+          let loggedUsername = null
+          if (user) {
+            loggedUsername = user.username
+          }
+          return (
+            <Blog
+              key={blog.id}
+              blog={blog}
+              updateBlog={updateBlog}
+              deleteBlog={deleteBlog}
+              username={loggedUsername}
+            />
+          )
+        })}
     </div>
   )
 }
