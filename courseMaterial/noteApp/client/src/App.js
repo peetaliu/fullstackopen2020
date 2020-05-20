@@ -15,6 +15,7 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
+  const noteFormRef = React.createRef()
 
   useEffect(() => {
     noteService.getAll().then(initialNotes => {
@@ -56,8 +57,6 @@ const App = () => {
         }, 5000)
       })
   }
-
-  const noteFormRef = React.createRef()
 
   const handleLogin = async event => {
     event.preventDefault()
@@ -105,7 +104,7 @@ const App = () => {
       <Notification message={errorMessage} />
 
       {user === null ? (
-        <Togglable buttonLabel="login">
+        <Togglable buttonLabel='login'>
           <LoginForm
             username={username}
             password={password}
@@ -120,7 +119,7 @@ const App = () => {
             {user.name} logged in <button onClick={handleLogout}>Logout</button>
           </p>
 
-          <Togglable buttonLabel="new note" ref={noteFormRef}>
+          <Togglable buttonLabel='new note' ref={noteFormRef}>
             <NoteForm createNote={createNote} />
           </Togglable>
         </div>
