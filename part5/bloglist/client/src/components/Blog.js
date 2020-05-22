@@ -18,6 +18,7 @@ const Blog = props => {
   const checkOwnership = () => {
     return props.username === blog.user.username ? true : false
   }
+
   const showIfOwned = { display: checkOwnership() ? '' : 'none' }
 
   const toggleVisible = () => {
@@ -32,10 +33,10 @@ const Blog = props => {
 
   return (
     <div style={blogStyle}>
-      <div style={hideWhenVisible}>
+      <div style={hideWhenVisible} className='collapsed'>
         {blog.title} {blog.author} <button onClick={toggleVisible}>view</button>
       </div>
-      <div style={showWhenVisible}>
+      <div style={showWhenVisible} className='expanded'>
         {blog.title} {blog.author}
         <button onClick={toggleVisible}>close</button>
         <p>{blog.url}</p>
