@@ -5,8 +5,10 @@ import { prettyDOM } from '@testing-library/dom'
 import Blog from '../components/Blog'
 
 describe('<Blog />', () => {
-  test('renders blogs title and author, but does not render url or likes by default', () => {
-    const blog = {
+  let blog
+  let component
+  beforeEach(() => {
+    blog = {
       user: {
         username: 'test username',
         name: 'tester',
@@ -16,10 +18,20 @@ describe('<Blog />', () => {
       title: 'test title',
       url: 'test url',
     }
+    component = render(<Blog blog={blog} />)
+  })
 
-    const component = render(<Blog blog={blog} />)
+  test('renders blogs title and author, but does not render url or likes by default', () => {
+    const shown = component.container.querySelector('.expanded')
+    expect(shown).toHaveStyle('display: none')
+  })
+
+  test('url and number of likes are shown on button click', () => {
+    const button = component.getByText('view')
+    fireEvent.click(button)
 
     const shown = component.container.querySelector('.expanded')
-    expect(shown).toHaveStyle('Display: none')
+    expect(shown).not.toHaveStyle('display: none')
+    expect(shown).toHaveTextContent('test url')
   })
 })
