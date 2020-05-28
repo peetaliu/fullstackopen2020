@@ -12,6 +12,18 @@ describe('Note app', function () {
     cy.request('POST', 'http://localhost:3001/api/users/', user)
     cy.visit('http://localhost:3000')
   })
+
+  it.only('login fails with wrong password', function () {
+    cy.contains('login').click()
+    cy.get('#username').type('peetaliu')
+    cy.get('#password').type('wrong')
+    cy.get('#login-button').click()
+
+    cy.get('.error')
+      .should('contain', 'Wrong credentials')
+      .and('have.css', 'color', 'rgb(255, 0, 0)')
+      .and('have.css', 'border-style', 'solid')
+  })
   it('front page can be opened', function () {
     cy.contains('Notes')
     cy.contains(
