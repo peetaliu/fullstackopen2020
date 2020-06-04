@@ -50,7 +50,7 @@ const Blog = props => {
           </button>
         </p>
         <p>{blog.user.name}</p>
-        <button onClick={deleteBlog} style={showIfOwned}>
+        <button onClick={deleteBlog} className='delBtn' style={showIfOwned}>
           delete
         </button>
       </div>

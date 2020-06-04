@@ -30,7 +30,7 @@ describe('Blog App', function () {
       cy.contains('Wrong Credentials')
     })
   })
-  describe.only('When logged in', function () {
+  describe('When logged in', function () {
     beforeEach(function () {
       cy.login({ username: 'testUserName', password: 'testPassword' })
     })
@@ -57,6 +57,30 @@ describe('Blog App', function () {
       cy.contains(
         'added like to blog: Test title created by cypress. Total likes now at: 2'
       )
+    })
+    describe.only('When blog exists', function () {
+      beforeEach(function () {
+        const blog = {
+          title: 'cypress test 2',
+          author: 'test author',
+          url: 'test url',
+        }
+        cy.createBlog(blog)
+      })
+      it('Can delete', function () {
+        cy.get('.viewBtn').click().get('.delBtn').click()
+        cy.contains('Deleted blog: cypress test 2')
+      })
+      it('Can not delete', function () {
+        const user = {
+          username: 'testUserName2',
+          name: 'testName2',
+          password: 'testPassword',
+        }
+        cy.request('POST', 'http://localhost:3001/api/users', user)
+        cy.login({ username: 'testUserName2', password: 'testPassword' })
+        cy.get('.viewBtn').click().should('not.contain', 'delete')
+      })
     })
   })
 })
