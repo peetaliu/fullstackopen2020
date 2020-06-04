@@ -34,14 +34,20 @@ const Blog = props => {
   return (
     <div style={blogStyle}>
       <div style={hideWhenVisible} className='collapsed'>
-        {blog.title} {blog.author} <button onClick={toggleVisible}>view</button>
+        {blog.title} {blog.author}{' '}
+        <button onClick={toggleVisible} className='viewBtn'>
+          view
+        </button>
       </div>
       <div style={showWhenVisible} className='expanded'>
         {blog.title} {blog.author}
         <button onClick={toggleVisible}>close</button>
         <p>{blog.url}</p>
         <p>
-          likes: {blog.likes} <button onClick={addLike}>like</button>
+          likes: {blog.likes}{' '}
+          <button onClick={addLike} className='likeBtn'>
+            like
+          </button>
         </p>
         <p>{blog.user.name}</p>
         <button onClick={deleteBlog} style={showIfOwned}>

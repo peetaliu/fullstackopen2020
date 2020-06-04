@@ -42,5 +42,21 @@ describe('Blog App', function () {
       cy.get('#crtBtn').click()
       cy.contains('Test title created by cypress')
     })
+    it('Blog can be liked', function () {
+      cy.contains('New Blog').click()
+      cy.get('#title').type('Test title created by cypress')
+      cy.get('#author').type('Test author')
+      cy.get('#url').type('Test url')
+      cy.get('#crtBtn').click()
+      cy.get('.viewBtn').click()
+      cy.get('.likeBtn').click()
+      cy.contains(
+        'added like to blog: Test title created by cypress. Total likes now at: 1'
+      )
+      cy.get('.likeBtn').click()
+      cy.contains(
+        'added like to blog: Test title created by cypress. Total likes now at: 2'
+      )
+    })
   })
 })
