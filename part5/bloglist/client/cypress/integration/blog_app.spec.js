@@ -61,15 +61,16 @@ describe('Blog App', function () {
     describe.only('When blog exists', function () {
       beforeEach(function () {
         const blog = {
-          title: 'cypress test 2',
+          title: 'cypress test',
           author: 'test author',
           url: 'test url',
+          likes: 1,
         }
         cy.createBlog(blog)
       })
       it('Can delete', function () {
         cy.get('.viewBtn').click().get('.delBtn').click()
-        cy.contains('Deleted blog: cypress test 2')
+        cy.contains('Deleted blog: cypress test')
       })
       it('Can not delete', function () {
         const user = {
@@ -80,6 +81,28 @@ describe('Blog App', function () {
         cy.request('POST', 'http://localhost:3001/api/users', user)
         cy.login({ username: 'testUserName2', password: 'testPassword' })
         cy.get('.viewBtn').click().should('not.contain', 'delete')
+      })
+      it.only('Blogs are ordered by likes', function () {
+        const blog1 = {
+          title: 'cypress test 1',
+          author: 'test author',
+          url: 'test url',
+          likes: 123,
+        }
+        const blog2 = {
+          title: 'cypress test 2',
+          author: 'test author',
+          url: 'test url',
+          likes: 30,
+        }
+        cy.createBlog(blog1)
+        cy.createBlog(blog2)
+        cy.get('.blog').then(blog => {
+          cy.get('.viewBtn').click({ multiple: true })
+          cy.get(blog[0]).should('contain', 123)
+          cy.get(blog[1]).should('contain', 30)
+          cy.get(blog[2]).should('contain', 1)
+        })
       })
     })
   })

@@ -32,7 +32,7 @@ const Blog = props => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className='blog'>
       <div style={hideWhenVisible} className='collapsed'>
         {blog.title} {blog.author}{' '}
         <button onClick={toggleVisible} className='viewBtn'>
