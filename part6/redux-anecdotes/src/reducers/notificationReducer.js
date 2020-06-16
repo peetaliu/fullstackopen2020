@@ -1,10 +1,10 @@
 const notificationReducer = (state = '', action) => {
   switch (action.type) {
     case 'VOTE': {
-      return `You voted "${action.data.content}"`
+      return `You voted "${action.anecdote}"`
     }
     case 'CREATE': {
-      return `Created note "${action.data.content}"`
+      return `Created note "${action.anecdote}"`
     }
     case 'CLEAR': {
       return ''
@@ -15,22 +15,21 @@ const notificationReducer = (state = '', action) => {
   }
 }
 
-export const voteMsg = content => {
+export const voteMsg = anecdote => {
   return {
     type: 'VOTE',
-    data: { content },
+    anecdote,
   }
 }
 
-export const showCreate = content => ({
+export const showCreate = anecdote => ({
   type: 'CREATE',
-  data: { content },
+  anecdote,
 })
 
 export const resetMsg = () => {
   return {
     type: 'CLEAR',
-    data: {},
   }
 }
 
