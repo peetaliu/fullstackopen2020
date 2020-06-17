@@ -4,7 +4,7 @@ const notificationReducer = (state = '', action) => {
       return `You voted "${action.anecdote}"`
     }
     case 'CREATE': {
-      return `Created note "${action.anecdote}"`
+      return `Created anecdote "${action.anecdote}"`
     }
     case 'CLEAR': {
       return ''
