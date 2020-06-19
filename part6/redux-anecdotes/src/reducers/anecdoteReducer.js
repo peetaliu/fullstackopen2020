@@ -1,4 +1,4 @@
-//const getId = () => (100000 * Math.random()).toFixed(0)
+import anecdoteService from '../services/anecdoteService'
 
 const anecdoteReducer = (state = [], action) => {
   switch (action.type) {
@@ -21,10 +21,13 @@ const anecdoteReducer = (state = [], action) => {
   }
 }
 
-export const initAnecs = data => {
-  return {
-    type: 'INIT_ANEC',
-    data,
+export const initAnecs = () => {
+  return async dispatch => {
+    const anecs = await anecdoteService.getAll()
+    dispatch({
+      type: 'INIT_ANEC',
+      data: anecs,
+    })
   }
 }
 

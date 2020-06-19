@@ -1,5 +1,6 @@
-import { createStore, combineReducers } from 'redux'
+import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { composeWithDevTools } from 'redux-devtools-extension'
+import thunk from 'redux-thunk'
 
 import anecdoteReducer from './reducers/anecdoteReducer'
 import notificationReducer from './reducers/notificationReducer'
@@ -11,7 +12,7 @@ const reducer = combineReducers({
   filter: filterReducer,
 })
 
-const store = createStore(reducer, composeWithDevTools())
+const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)))
 
 console.log(store.getState())
 
