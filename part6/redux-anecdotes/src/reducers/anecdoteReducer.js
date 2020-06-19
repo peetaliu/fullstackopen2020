@@ -31,10 +31,13 @@ export const initAnecs = () => {
   }
 }
 
-export const createAnec = data => {
-  return {
-    type: 'NEW_ANEC',
-    data,
+export const createAnec = content => {
+  return async dispatch => {
+    const newAnec = await anecdoteService.createAnec(content)
+    dispatch({
+      type: 'NEW_ANEC',
+      data: newAnec,
+    })
   }
 }
 
