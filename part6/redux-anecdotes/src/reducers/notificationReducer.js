@@ -1,11 +1,11 @@
 const notificationReducer = (state = '', action) => {
   switch (action.type) {
-    case 'VOTE': {
-      return `You voted "${action.anecdote}"`
+    case 'SET': {
+      return action.msg
     }
-    case 'CREATE': {
-      return `Created anecdote "${action.anecdote}"`
-    }
+    // case 'CREATE': {
+    //   return `Created anecdote "${action.anecdote}"`
+    // }
     case 'CLEAR': {
       return ''
     }
@@ -15,21 +15,17 @@ const notificationReducer = (state = '', action) => {
   }
 }
 
-export const voteMsg = anecdote => {
-  return {
-    type: 'VOTE',
-    anecdote,
-  }
-}
-
-export const showCreate = anecdote => ({
-  type: 'CREATE',
-  anecdote,
-})
-
-export const resetMsg = () => {
-  return {
-    type: 'CLEAR',
+export const setNotification = (msg, to) => {
+  return async dispatch => {
+    dispatch({
+      type: 'SET',
+      msg,
+    })
+    setTimeout(() => {
+      dispatch({
+        type: 'CLEAR',
+      })
+    }, to * 1000)
   }
 }
 
