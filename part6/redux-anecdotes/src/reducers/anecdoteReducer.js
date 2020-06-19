@@ -5,7 +5,7 @@ const anecdoteReducer = (state = [], action) => {
     case 'INIT_ANEC':
       return action.data
     case 'ADD_VOTE': {
-      const id = action.data.id
+      const id = action.data.update.id
       const anecToChange = state.find(n => n.id === id)
       const newAnec = {
         ...anecToChange,
@@ -41,10 +41,13 @@ export const createAnec = content => {
   }
 }
 
-export const addVote = id => {
-  return {
-    type: 'ADD_VOTE',
-    data: { id },
+export const addVote = anec => {
+  return async dispatch => {
+    const update = await anecdoteService.updateAnec(anec)
+    dispatch({
+      type: 'ADD_VOTE',
+      data: { update },
+    })
   }
 }
 
