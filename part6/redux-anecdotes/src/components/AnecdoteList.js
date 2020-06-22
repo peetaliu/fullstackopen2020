@@ -6,7 +6,7 @@ import { setNotification } from '../reducers/notificationReducer'
 const AnecdoteList = props => {
   const vote = anec => {
     props.addVote(anec)
-    props.setNotification(anec.content, 5)
+    props.setNotification(`Voted for ${anec.content}`, 5)
   }
 
   return (
