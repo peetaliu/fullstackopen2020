@@ -27,8 +27,19 @@ const AnecdoteList = props => {
 }
 
 const mapStateToProps = state => {
+  if (!state.filter) {
+    return {
+      anecdotes: state.anecdotes,
+      filter: state.filter,
+    }
+  }
+
+  const filteredAnecs = state.anecdotes.filter(a =>
+    a.content.toLowerCase().trim().includes(state.filter.toLowerCase())
+  )
+
   return {
-    anecdotes: state.anecdotes,
+    anecdotes: filteredAnecs,
     filter: state.filter,
   }
 }
