@@ -3,9 +3,6 @@ const notificationReducer = (state = '', action) => {
     case 'SET': {
       return action.msg
     }
-    // case 'CREATE': {
-    //   return `Created anecdote "${action.anecdote}"`
-    // }
     case 'CLEAR': {
       return ''
     }
@@ -14,18 +11,21 @@ const notificationReducer = (state = '', action) => {
     }
   }
 }
-
+let timeouts = []
 export const setNotification = (msg, to) => {
+  clearTimeout(timeouts[timeouts.length - 1])
   return async dispatch => {
     dispatch({
       type: 'SET',
       msg,
     })
-    setTimeout(() => {
-      dispatch({
-        type: 'CLEAR',
-      })
-    }, to * 1000)
+    timeouts.push(
+      setTimeout(() => {
+        dispatch({
+          type: 'CLEAR',
+        })
+      }, to * 1000)
+    )
   }
 }
 
