@@ -40,6 +40,17 @@ const AnecdoteList = ({ anecdotes }) => (
   </div>
 )
 
+const Anecdote = ({ anecdote }) => {
+  console.log(anecdote)
+  return (
+    <div>
+      <h2>
+        {anecdote.content} by {anecdote.author}
+      </h2>
+      <div>has {anecdote.votes} votes</div>
+    </div>
+  )
+}
 const About = () => (
   <div>
     <h2>About anecdote app</h2>
@@ -132,14 +143,14 @@ const App = () => {
       author: 'Jez Humble',
       info: 'https://martinfowler.com/bliki/FrequencyReducesDifficulty.html',
       votes: 0,
-      id: '1',
+      id: 1,
     },
     {
       content: 'Premature optimization is the root of all evil',
       author: 'Donald Knuth',
       info: 'http://wiki.c2.com/?PrematureOptimization',
       votes: 0,
-      id: '2',
+      id: 2,
     },
   ])
 
@@ -163,11 +174,19 @@ const App = () => {
     setAnecdotes(anecdotes.map(a => (a.id === id ? voted : a)))
   }
 
+  const match = useRouteMatch('/anecdote/:id')
+  const anecdote = match
+    ? anecdotes.find(a => a.id === Number(match.params.id))
+    : null
+
   return (
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
       <Switch>
+        <Route path='/anecdote/:id'>
+          <Anecdote anecdote={anecdote} />
+        </Route>
         <Route path='/about'>
           <About />
         </Route>
@@ -178,6 +197,7 @@ const App = () => {
           <AnecdoteList anecdotes={anecdotes} />
         </Route>
       </Switch>
+      <br />
       <Footer />
     </div>
   )
